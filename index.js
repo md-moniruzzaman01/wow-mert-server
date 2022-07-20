@@ -16,30 +16,47 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_USER_PASS}@cl
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {
-    try {
-      await client.connect();
-      const Collection = client.db("wowmart").collection("products");
-  
-      app.get('/product/:id', async(req,res)=>{
-        const id = req.params.id
-       
-        const query = {_id:ObjectId(id)}
-        const cursor = await Collection.findOne(query);
-        const product = JSON.stringify(cursor)
-        res.send(product)
-      })
-    }finally{
-  
-    }
-    
-  }
-  run().catch(console.dir);
-  
-  
-  app.get('/', (req, res) => {
-    res.send('wow server')
-  })
+  try {
+    await client.connect();
+    const Collection = client.db("wowmart").collection("products");
+    const iconCollection = client.db("wowmart").collection("productIcon");
+    app.get('/product/:id', async (req, res) => {
+      const id = req.params.id
+      const datas = []
+      const query = { _id: ObjectId(id) }
+      const cursor = await Collection.findOne(query);
+      const product = [...datas, cursor]
+      res.send(product)
+    })
 
-  app.listen(port, () => {
-    console.log(` listening on port ${port}`)
-  })
+
+    app.get('/icon', async (req, res) => {
+
+      const query = {}
+      const cursor = await iconCollection.find(query).toArray()
+      res.send(product)
+    })
+    app.get('/products', async (req, res) => {
+
+      const query = {}
+
+      const cursor = await Collection.find(query).toArray()
+      res.send(product)
+    })
+
+
+  } finally {
+
+  }
+
+}
+run().catch(console.dir);
+
+
+app.get('/', (req, res) => {
+  res.send('wow server')
+})
+
+app.listen(port, () => {
+  console.log(` listening on port ${port}`)
+})
