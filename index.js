@@ -3,7 +3,7 @@ const app = express()
 cors = require('cors')
 
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 
 
 // middelware
@@ -24,8 +24,9 @@ async function run() {
         const id = req.params.id
        
         const query = {_id:ObjectId(id)}
-        const cursor = await Collection.findOne(query)
-        res.send(cursor)
+        const cursor = await Collection.findOne(query);
+        const product = JSON.stringify(cursor)
+        res.send(product)
       })
     }finally{
   
