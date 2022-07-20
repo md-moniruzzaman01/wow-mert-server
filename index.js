@@ -34,14 +34,14 @@ async function run() {
 
       const query = {}
       const cursor = await iconCollection.find(query).toArray()
-      res.send(product)
+      res.send(cursor)
     })
     app.get('/products', async (req, res) => {
 
       const query = {}
 
       const cursor = await Collection.find(query).toArray()
-      res.send(product)
+      res.send(cursor)
     })
 
 
